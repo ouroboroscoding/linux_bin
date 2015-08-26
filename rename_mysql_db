@@ -1,0 +1,55 @@
+#!/bin/bash
+
+###
+# Check for arguments
+###
+while getopts "p:o:n:" opt; do
+	case $opt in
+		p)
+			passwd=$OPTARG
+			;;
+
+		o)
+			oldName=$OPTARG
+			;;
+
+		n)
+			newName=$OPTARG
+			;;
+
+		\?)
+			echo "Invalid option: -$OPTARG" >&2
+			;;
+	esac
+done
+
+###
+# If arguments aren't set
+###
+if [ -z "$passwd" ];
+then
+	echo -n 'Please enter the root password for the MariaDB/MySQL server: '
+	read -s passwd
+	echo ' '
+fi
+
+if [ -z "$oldName" ];
+then
+	echo -n 'Please enter the current name of the db: '
+	read oldName
+fi
+
+if [ -z "$newName" ];
+then
+	echo -n 'Please enter the new name of the db: '
+	read newName
+fi
+
+# Create the new DB
+mysqladmin -uroot -p$passwd create $newName
+
+# Copy the contents of the old DB to the new DB
+mysqldump -uroot -p$passwd -v $oldName | mysql -uroot -p$passwd $newName
+
+# Delete the old DB (will prompt for confirmation)
+mysqladmin -uroot -p$passwd drop $oldName
