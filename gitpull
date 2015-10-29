@@ -1,3 +1,2 @@
-git pull origin
-git submodule update --init --recursive
-
+#!/bin/bash
+git pull origin && git submodule update --init --recursive
