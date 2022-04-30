@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [[ "$1" == "" ]];
+then
+	echo "Please provide the domain to fetch DNS records for"
+	echo "ex. digall google.com"
+	exit
+fi
+
+echo "Searching for all DNS records in $1"
+
+for type in A AAAA AFSDB APL CAA CDNSKEY CDS CERT CNAME CSYNC DHCID DLV DNAME DNSKEY DS EUI48 EUI64 HINFO HIP HTTPS IPSECKEY KEY KX LOC MX NAPTR NS NSEC NSEC3 NSEC3PARAM OPENPGPKEY PTR RRSIG RP SIG SMIMEA SOA SRV SSHFP SVCB TA TKEY TLSA TSIG TXT URI ZONEMD
+do
+	dig +noall +answer +multiline $type $1
+	sleep 1
+done
+
+echo "Done"
