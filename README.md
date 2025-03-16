@@ -12,16 +12,15 @@ anything you should run in a production environment.
 - [pip_clear](#pip_clear)
 - [recurse_chmod](#recurse_chmod)
 - [rename_mysql_db](#rename_mysql_db)
-- [rotate.sh](#rotate.sh)
+- [rotate.sh](#rotatesh)
 
 ### dig_all
-Passed a domain, it loops through the following list to find records.
+A bash script to find all dns records for a domain by looping through available
+types per the following list:
 
-```
-A, AAAA, AFSDB, APL, CAA, CDNSKEY, CDS, CERT, CNAME, CSYNC, DHCID, DLV, DNAME, DNSKEY, DS, EUI48, EUI64, HINFO, HIP, HTTPS, IPSECKEY, KEY, KX, LOC, MX, NAPTR, NS, NSEC, NSEC3, NSEC3PARAM, OPENPGPKEY, PTR, RRSIG, RP, SIG, SMIMEA, SOA, SRV, SSHFP, SVCB, TA, TKEY, TLSA, TSIG, TXT, URI, ZONEMD
-```
+```A``` ```AAAA``` ```AFSDB``` ```APL``` ```CAA``` ```CDNSKEY``` ```CDS``` ```CERT``` ```CNAME``` ```CSYNC``` ```DHCID``` ```DLV``` ```DNAME``` ```DNSKEY``` ```DS``` ```EUI48``` ```EUI64``` ```HINFO``` ```HIP``` ```HTTPS``` ```IPSECKEY``` ```KEY``` ```KX``` ```LOC``` ```MX``` ```NAPTR``` ```NS``` ```NSEC``` ```NSEC3``` ```NSEC3PARAM``` ```OPENPGPKEY``` ```PTR``` ```RRSIG``` ```RP``` ```SIG``` ```SMIMEA``` ```SOA``` ```SRV``` ```SSHFP``` ```SVCB``` ```TA``` ```TKEY``` ```TLSA``` ```TSIG``` ```TXT``` ```URI``` ```ZONEMD```
 
-For example, if you were to dig `google.com`
+For example,
 ```console
 foo@bar:~$ dig_all google.com
 Searching for all DNS records in google.com
@@ -141,8 +140,8 @@ re-add the DB)
 | -n | yes | The name to rename the database to. |
 
 ```console
-foo@bar:~$ rename_mysql_db -u root -o phoenix
-Please enter the password for the MariaDB/MySQL server:
+foo@bar:~$ rename_mysql_db -u db_admin -o phoenix
+Please enter db_admin's password:
 Please enter the new name of the db: phoenix2
 Done
 foo@bar:~$
