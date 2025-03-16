@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding=utf8
 ##
 # Recurse chmod
@@ -6,7 +6,7 @@
 # Used to recursively change the mode on all directories and files in a path
 #
 # @author Chris Nasr
-# @copyright FUEL for the FIRE
+# @copyright Ouroboros Coding Inc.
 # @created 2015-03-14
 
 # Import python core modules
@@ -16,8 +16,8 @@ import re
 import sys
 
 # Global variables
-giFileMode	= 0664
-giDirMode	= 0775
+giFileMode	= 0o664
+giDirMode	= 0o775
 gbVerbose	= False
 
 # Look for arguments
@@ -36,7 +36,7 @@ if '--filemode' in dOpts:
 
 	# If it's an valid octal value
 	if re.search('0?[0-7]{3}', dOpts['--filemode']) == None:
-		print 'Invalid value for file mode (--filemode): ' + dOpts['--filemode']
+		print('Invalid value for file mode (--filemode): ' + dOpts['--filemode'])
 		exit(1)
 
 	# Store the value
@@ -50,7 +50,7 @@ if '--dirmode' in dOpts:
 
 	# If it's an valid octal value
 	if re.search('0?[0-7]{3}', dOpts['--dirmode']) == None:
-		print 'Invalid value for file mode (--dirmode): ' + dOpts['--dirmode']
+		print('Invalid value for file mode (--dirmode): ' + dOpts['--dirmode'])
 		exit(1)
 
 	# Store the value
@@ -60,16 +60,16 @@ if '--dirmode' in dOpts:
 for path,dirs,files in os.walk('.'):
 
 	# Go through each file
-	for i in xrange(0, len(files)):
+	for i in range(0, len(files)):
 
 		# Change the mode
-		if gbVerbose: print 'chmod', oct(giFileMode), path + '/' + files[i]
+		if gbVerbose: print('chmod', oct(giFileMode), path + '/' + files[i])
 		os.chmod(path + '/' + files[i], giFileMode)
 
 	# Go through each directory
-	for i in xrange(0, len(dirs)):
+	for i in range(0, len(dirs)):
 
 		# Change the mode
-		if gbVerbose: print 'chmod', oct(giDirMode), path + '/' + dirs[i]
+		if gbVerbose: print('chmod', oct(giDirMode), path + '/' + dirs[i])
 		os.chmod(path + '/' + dirs[i], giDirMode)
 

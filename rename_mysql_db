@@ -3,8 +3,12 @@
 ###
 # Check for arguments
 ###
-while getopts "p:o:n:" opt; do
+while getopts "u:p:o:n:" opt; do
 	case $opt in
+		u)
+			user=$OPTARG
+			;;
+
 		p)
 			passwd=$OPTARG
 			;;
@@ -26,19 +30,29 @@ done
 ###
 # If arguments aren't set
 ###
+# Requeser user
+if [ -z "$user" ];
+then
+	echo -n 'Please enter an admin user for the MariaDB/MySQL server: '
+	read user
+fi
+
+# Request password
 if [ -z "$passwd" ];
 then
-	echo -n 'Please enter the root password for the MariaDB/MySQL server: '
+	echo -n "Please enter ${user}'s password: "
 	read -s passwd
 	echo ' '
 fi
 
+# Request old name
 if [ -z "$oldName" ];
 then
 	echo -n 'Please enter the current name of the db: '
 	read oldName
 fi
 
+# Request new name
 if [ -z "$newName" ];
 then
 	echo -n 'Please enter the new name of the db: '
@@ -46,10 +60,13 @@ then
 fi
 
 # Create the new DB
-mysqladmin -uroot -p$passwd create $newName
+mysqladmin -u$user -p$passwd create $newName
 
 # Copy the contents of the old DB to the new DB
-mysqldump -uroot -p$passwd -v $oldName | mysql -uroot -p$passwd $newName
+mysqldump -u$user -p$passwd -v $oldName | mysql -uroot -p$passwd $newName
 
 # Delete the old DB (will prompt for confirmation)
-mysqladmin -uroot -p$passwd drop $oldName
+mysqladmin -u$user -p$passwd drop $oldName
+
+# Success
+echo "Done"
